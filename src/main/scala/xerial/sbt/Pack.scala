@@ -69,6 +69,8 @@ object Pack extends sbt.Plugin {
   val packExpandedClasspath = settingKey[Boolean]("Expands the wildcard classpath in launch scripts to point at specific libraries")
   val packJarNameConvention = SettingKey[String]("pack-jarname-convention", "default: (artifact name)-(version).jar; original: original JAR name; full: (organization).(artifact name)-(version).jar; no-version: (organization).(artifact name).jar")
 
+  val packExtraClassifiers = SettingKey[Set[String]]("pack-extra-classifiers","jars with extra classifier to be included as a dependency")
+
   val DEFAULT_RESOURCE_DIRECTORY = "src/pack"
 
   lazy val packSettings = Seq[Def.Setting[_]](
@@ -90,6 +92,7 @@ object Pack extends sbt.Plugin {
     packJarNameConvention := "default",
     packGenerateWindowsBatFile := true,
     (mappings in pack) := Seq.empty,
+    packExtraClassifiers := Set.empty,
     pack := {
       val dependentJars = collection.immutable.SortedMap.empty[ModuleEntry, File] ++ (
         for {
@@ -101,7 +104,7 @@ object Pack extends sbt.Plugin {
           val mid = m.module
           val me = ModuleEntry(mid.organization, mid.name, mid.revision, artifact.classifier, file.getName)
           me -> file
-        }).filter(tuple => tuple._1.classifier == None)
+        }) .filter(tuple => tuple._1.classifier == None || packExtraClassifiers.value.contains(tuple._1.classifier.get))
 
       val out = streams.value
       val distDir: File = target.value / packDir.value
@@ -130,7 +133,7 @@ object Pack extends sbt.Plugin {
         }
       }
 
-      out.log.info("project dependencies:\n" + dependentJars.keys.mkString("\n"))
+      out.log.info("project dependencies (with classifiers:["+packExtraClassifiers.value+ "]) :\n" + dependentJars.keys.mkString("\n"))
       for ((m, f) <- dependentJars) {
         val targetFileName = resolveJarName(m, packJarNameConvention.value)
         IO.copyFile(f, libDir / targetFileName, true)
