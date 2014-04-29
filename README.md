@@ -171,8 +171,8 @@ Publishing to Nexus :
     e.g
     ```
     nexus.root=http://mynexus.net
-    nexus.releasesPath=nexus/content/repositories/releases
-    nexus.snapshotPath=nexus/content/repositories/snapshots
+    nexus.releasesPath=/nexus/content/repositories/releases
+    nexus.snapshotPath=/nexus/content/repositories/snapshots
     ```
 
     $ sbt publish

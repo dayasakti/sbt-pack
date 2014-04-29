@@ -1,6 +1,7 @@
 ### Release Notes
 - April 28th, 2014 - 0.5.1p1 release
   - Added packIncludeClassifiers option (unofficial)
+  - Added function to read config from ~/.sbt/sbt-pack-build.settings
 - February 24th, 2014 - 0.5.1 release
   - Added packExpandedClasspath option
 - February 21st, 2014 - 0.5.0 release
