@@ -161,3 +161,19 @@ To test sbt-pack plugin, run
 Run a single test project, e.g., `src/sbt-test/sbt-pack/multi-module`:
 
     $ ./sbt "scripted sbt-pack/multi-module"
+
+Publishing to Nexus :
+    
+    set your credentials here : ~/.ivy2/.credentials
+
+    the build script reads your local config here: ~/.sbt/sbt-pack-build.settings
+
+    e.g
+    ```
+    nexus.root=http://mynexus.net
+    nexus.releasesPath=nexus/content/repositories/releases
+    nexus.snapshotPath=nexus/content/repositories/snapshots
+    ```
+
+    $ sbt publish
+
