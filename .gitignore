@@ -17,3 +17,6 @@ project/plugins/project/
 
 src/sbt-test/*/*/bin/.lib
 
+.classpath
+.project
+.settings/
