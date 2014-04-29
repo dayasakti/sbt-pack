@@ -92,7 +92,7 @@ object Pack extends sbt.Plugin {
     packJarNameConvention := "default",
     packGenerateWindowsBatFile := true,
     (mappings in pack) := Seq.empty,
-    packExtraClassifiers := Set.empty,
+    packIncludeClassifiers := Set.empty,
     pack := {
       val dependentJars = collection.immutable.SortedMap.empty[ModuleEntry, File] ++ (
         for {
